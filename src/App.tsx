@@ -10,26 +10,21 @@ import { Good } from './types/Good';
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<Good[]>([]);
   const [loadField, setLoadField] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (loadField === 'ALL') {
       getAll()
         .then(setGoods)
-        .catch(() => {
-          throw new Error('Error');
-        });
+        .catch(error => setErrorMessage(error.message));
     } else if (loadField === 'COLOR') {
       getRedGoods()
         .then(setGoods)
-        .catch(() => {
-          throw new Error('Error');
-        });
+        .catch(error => setErrorMessage(error.message));
     } else if (loadField === 'TOP5') {
       get5First()
         .then(setGoods)
-        .catch(() => {
-          throw new Error('Error');
-        });
+        .catch(error => setErrorMessage(error.message));
     }
   }, [loadField]);
 
@@ -65,7 +60,7 @@ export const App: React.FC = () => {
         Load red goods
       </button>
 
-      <GoodsList goods={goods} />
+      {errorMessage ? <p>{errorMessage}</p> : <GoodsList goods={goods} />}
     </div>
   );
 };
