@@ -13,11 +13,23 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (loadField === 'ALL') {
-      getAll().then(setGoods);
+      getAll()
+        .then(setGoods)
+        .catch(() => {
+          throw new Error('Error');
+        });
     } else if (loadField === 'COLOR') {
-      getRedGoods().then(setGoods);
+      getRedGoods()
+        .then(setGoods)
+        .catch(() => {
+          throw new Error('Error');
+        });
     } else if (loadField === 'TOP5') {
-      get5First().then(setGoods);
+      get5First()
+        .then(setGoods)
+        .catch(() => {
+          throw new Error('Error');
+        });
     }
   }, [loadField]);
 
